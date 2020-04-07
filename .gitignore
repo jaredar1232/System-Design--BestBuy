@@ -2,3 +2,6 @@ node_modules
 keys.js
 package-lock.json
 keys
+seedData.csv
+TimingData/generateTiming.txt
+TimingData/importTiming.txt
