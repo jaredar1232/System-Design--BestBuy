@@ -65,13 +65,13 @@ class SearchBar extends React.Component {
         return (
             <div className="navbar-topbarmiddle-searchbar">
                 <input value={this.state.text} name="text" placeholder="Search Best Buy" onChange={this.onChange} />
-                {this.state.items.length && this.state.text ? <AutoCompleteBox items={this.state.productFilter ? this.state.items.filter(item => item.name.includes(this.state.productFilter)) : this.state.items} search={this.state.text} setProductFilter={this.setProductFilter} 
+                {this.state.items.length && this.state.text ? <AutoCompleteBox items={this.state.productFilter ? this.state.items.filter(item => item.name.includes(this.state.productFilter)) : this.state.items} search={this.state.text} setProductFilter={this.setProductFilter}
                     relatedItems={this.state.relatedItems}
                 /> : null}
                 {this.state.text ?
                     <button className="navbar-clear-search-icon" style={{ "display": "inline-block" }}>
                         <span className="header-close-icon">
-                            <img style={{ "max-height": "20px" }} src="https://origin-master.s3-us-west-1.amazonaws.com/clear_search.svg" />
+                            <img style={{ "maxHeight": "20px" }} src="https://origin-master.s3-us-west-1.amazonaws.com/clear_search.svg" />
                         </span>
                     </button>
                     :
@@ -79,7 +79,7 @@ class SearchBar extends React.Component {
                 }
 
 
-                <button className="navbar-searchbutton" style={{ "border-radius": "0 4px 4px 0" }}>
+                <button className="navbar-searchbutton" style={{ "borderRadius": "0 4px 4px 0" }}>
                     <span className="navbar-searchicon">
                         <img src="https://origin-master.s3-us-west-1.amazonaws.com/search_icon.svg" />
                     </span>

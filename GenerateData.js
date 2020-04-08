@@ -7,6 +7,7 @@ let generator = () => {
     ////////////// delete old seed file //////////////
     try {
         fs.unlinkSync('seedData.csv');
+        fs.unlinkSync('TimingData/generateTiming.txt');
         console.log(' DATA: Cleared '.bgWhite.black);
     } catch (err) {
         console.log(err)
@@ -54,7 +55,7 @@ let generator = () => {
     }
     ////////////// stop and record timer //////////////
     const end = process.hrtime.bigint();
-    const rawTime = Number((parseInt(end - start, 10) / 60000000000).toFixed(3));
+    const rawTime = Number((parseInt(end - start) / 60000000000).toFixed(3));
     const minutes = Math.floor(rawTime);
     const seconds = Math.floor((rawTime - minutes) * 60);
     const elapsedTime = minutes + Number((seconds / 100).toFixed(2));
@@ -66,6 +67,7 @@ let generator = () => {
         console.log(err);
     }
 }
+
 // invoke generator
 generator()
 
