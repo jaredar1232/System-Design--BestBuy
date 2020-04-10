@@ -46,8 +46,8 @@ let searchString = async (str) => {
         const db = client.db(dbName);
 
         const start = process.hrtime.bigint();
-        let data = await db.collection('navbar').find({ name: { "$regex": '^' + str, "$options": "i" } }).limit(1).toArray()
-        let anObject = data[0]
+        let data = await db.collection('navbar').find({ name: { "$regex": '^' + str, "$options": "i" } }).limit(5000).toArray()
+        let anObject = data
         const end = process.hrtime.bigint();
         const rawTime = Number((parseInt(end - start) / 6000000).toFixed(2));
         console.log(`${rawTime} milliseconds`.cyan);
