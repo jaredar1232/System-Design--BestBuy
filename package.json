@@ -7,7 +7,7 @@
     "build": "webpack -wd",
     "start": "nodemon server/index.js",
     "import": "node server/db/seed.js",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "generate": "node GenerateData.js",
     "seed": "run-s generate import"
   },

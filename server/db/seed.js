@@ -1,7 +1,35 @@
+// const db = require('./index.js')
+// const MongoClient = require('mongodb').MongoClient;
+// const fs = require('fs');
+// // const client = require('./index.js').client
+
+
+// let runMe = async () => {
+//     await db.seedData()
+//         .then(() => {
+//             console.log('running')
+//         })
+//         .catch(err => console.log(err));
+// };
+// runMe();
+
+// app.post('/search', (req, res) => {
+//     const text = req.body.text;
+//     // console.log(text);
+//     db.searchString(text)
+//         .then(data => {
+//             res.status(200).send(data);
+//         })
+//         .catch(err => res.status(400).send(err));
+// });
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
+// const assert = require('assert');
 const exec = require('child_process').exec;
 const fs = require('fs');
+
 const colors = require('colors');
 
 // Connection URL
@@ -14,9 +42,8 @@ const dbName = 'BB';
 const client = new MongoClient(url, { useUnifiedTopology: true });
 
 
-
 client.connect(function (err) {
-    assert.equal(null, err);
+    // assert.equal(null, err);
     console.log("Connected To Server".green);
 
     const db = client.db(dbName);
@@ -38,8 +65,9 @@ client.connect(function (err) {
             try {
                 fs.unlinkSync('TimingData/importTiming.txt');
             } catch (err) {
-                console.log(err)
+                console.log(' No Timing Data To Clear '.bgWhite.black)
             }
+
             try {
                 if (error) {
                     console.log(error)
@@ -53,6 +81,7 @@ client.connect(function (err) {
                     const elapsedTime = minutes + Number((seconds / 100).toFixed(2));
                     console.log('COLLECTION: Imported!'.green);
                     console.log(`COLLECTION IMPORTATION: ${minutes} min, ${seconds} sec`.cyan);
+
                     try {
                         fs.writeFileSync('TimingData/importTiming.txt', `${elapsedTime}`);
                     } catch (err) {

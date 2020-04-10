@@ -5,3 +5,5 @@ keys
 seedData.csv
 TimingData/generateTiming.txt
 TimingData/importTiming.txt
+TimingData/searchIdTiming.txt
+TimingData/searchStringTiming.txt

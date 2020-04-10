@@ -10,7 +10,7 @@ let generator = () => {
         fs.unlinkSync('TimingData/generateTiming.txt');
         console.log(' DATA: Cleared '.bgWhite.black);
     } catch (err) {
-        console.log(err)
+        console.log(' No Timing OR Seed Data To Clear '.bgWhite.black)
     }
 
     ////////////// start timer //////////////
@@ -18,7 +18,7 @@ let generator = () => {
     const start = process.hrtime.bigint();
 
     ////////////// build header line //////////////
-    let fields = 'name,image,console,rating,\n'
+    let fields = 'name,image,console,rating,id,\n'
 
     ////////////// write header line //////////////
     try {
@@ -44,7 +44,7 @@ let generator = () => {
 
         ////////////// build data object //////////////
         let enter = i < 9999999 ? ',\n' : ''
-        let gamesObj = `${name},https://origin-master.s3-us-west-1.amazonaws.com/game_images/${randomImg}.jpg ,${console},${rating.toFixed(1)}${enter}`
+        let gamesObj = `${name},https://origin-master.s3-us-west-1.amazonaws.com/game_images/${randomImg}.jpg ,${console},${rating.toFixed(1)},${i}${enter}`
 
         ////////////// write data object //////////////
         try {
