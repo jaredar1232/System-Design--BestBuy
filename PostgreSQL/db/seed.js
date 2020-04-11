@@ -1,53 +1,16 @@
-// const db = require('./index.js')
-// const MongoClient = require('mongodb').MongoClient;
-// const fs = require('fs');
-// // const client = require('./index.js').client
-
-
-// let runMe = async () => {
-//     await db.seedData()
-//         .then(() => {
-//             console.log('running')
-//         })
-//         .catch(err => console.log(err));
-// };
-// runMe();
-
-// app.post('/search', (req, res) => {
-//     const text = req.body.text;
-//     // console.log(text);
-//     db.searchString(text)
-//         .then(data => {
-//             res.status(200).send(data);
-//         })
-//         .catch(err => res.status(400).send(err));
-// });
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-
 const MongoClient = require('mongodb').MongoClient;
-// const assert = require('assert');
 const exec = require('child_process').exec;
 const fs = require('fs');
-
-const colors = require('colors');
-
-// Connection URL
-const url = 'mongodb://localhost:27017';
-
-// Database Name
-const dbName = 'BB';
+const colors = require('colors'); // not shown to be used, BUT BEING USED
 
 // Create a new MongoClient
-const client = new MongoClient(url, { useUnifiedTopology: true });
-
+const client = new MongoClient('mongodb://localhost:27017', { useUnifiedTopology: true });
 
 client.connect(function (err) {
-    // assert.equal(null, err);
-    console.log("Connected To Server".green);
+    console.log("CONNECTION: Open\n".white);
+    const db = client.db('BB');
 
-    const db = client.db(dbName);
-
+    // drop database and then import new data on callback
     db.dropDatabase(() => {
         console.log(' COLLECTION: Cleared '.bgWhite.black)
         console.log('COLLECTION: Importing...'.yellow)
@@ -56,7 +19,7 @@ client.connect(function (err) {
         const start = process.hrtime.bigint();
 
         // define csv import command 
-        const cmd = 'mongoimport -d BB -c navbar --type csv --file seedData.csv --headerline --ignoreBlanks';
+        const cmd = 'mongoimport -d BB -c navbar --type csv --file seedData.csv --headerline --ignoreBlanks --maintainInsertionOrder';
 
         // execute csv import
         exec(cmd, function (error, stdout, stderr) {
@@ -72,7 +35,6 @@ client.connect(function (err) {
                 if (error) {
                     console.log(error)
                 } else {
-                    client.close();
                     // end and record timer
                     const end = process.hrtime.bigint();
                     const rawTime = Number((parseInt(end - start) / 60000000000).toFixed(3));
@@ -80,19 +42,28 @@ client.connect(function (err) {
                     const seconds = Math.floor((rawTime - minutes) * 60);
                     const elapsedTime = minutes + Number((seconds / 100).toFixed(2));
                     console.log('COLLECTION: Imported!'.green);
-                    console.log(`COLLECTION IMPORTATION: ${minutes} min, ${seconds} sec`.cyan);
+                    console.log(`COLLECTION IMPORTATION: ${minutes} min, ${seconds} sec\nå`.cyan);
 
+                    // write a file with timing data to be used in later testing
                     try {
                         fs.writeFileSync('TimingData/importTiming.txt', `${elapsedTime}`);
                     } catch (err) {
                         console.log(err);
                     }
                 }
+
             } catch (err) {
                 console.log(err)
+            } finally {
+                // index database
+                console.log('COLLECTION: Indexing...'.yellow)
+                db.collection('navbar').createIndex({ id: -1 })
             }
+
+            // close connection and console long data
+            console.log('COLLECTION: Indexing Complete'.green)
+            client.close();
+            console.log('\nCONNECTION: Closed'.white)
         });
     });
 });
-
-

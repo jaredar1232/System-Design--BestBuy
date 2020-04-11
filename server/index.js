@@ -4,7 +4,7 @@ const port = process.env.PORT || 3001;
 const AWS = require('aws-sdk');
 // const db = require('./db/models.js');
 var cors = require('cors')
-const db = require('./db/index.js')
+const db = require('../MongoDB/db/index.js')
 //const keys = require('../keys.js');
 
 

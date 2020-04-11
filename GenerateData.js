@@ -44,7 +44,7 @@ let generator = () => {
 
         ////////////// build data object //////////////
         let enter = i < 9999999 ? ',\n' : ''
-        let gamesObj = `${name},https://origin-master.s3-us-west-1.amazonaws.com/game_images/${randomImg}.jpg ,${console},${rating.toFixed(1)},${i}${enter}`
+        let gamesObj = `${name},https://origin-master.s3-us-west-1.amazonaws.com/game_images/${randomImg}.jpg ,${console},${rating.toFixed(1)},${i + 1}${enter}`
 
         ////////////// write data object //////////////
         try {
