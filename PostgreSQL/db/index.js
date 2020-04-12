@@ -1,104 +1,96 @@
-/////////////////////////////////////////////////////////////////////////////////////
-// ORIGINAL MONGOOSE LEGACY DATABASE
-/////////////////////////////////////////////////////////////////////////////////////
-// const mongoose = require('mongoose');
-// const Schema = require('./schema.js');
+const { Pool, Client } = require('pg')
+const colors = require('colors')
 
-// mongoose.connect('mongodb://localhost/bestbuysearch', {
-//     useNewUrlParser: true
-//     // useUnifiedTopology: true,
-// });
+///////////////////////////////////////////////////////////////////////
+// drop old database if exists
+///////////////////////////////////////////////////////////////////////
 
-// let db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function () {
-//     console.log("Connected to MongoDB database");
-// });
+// define template database client
+const client = new Client({
+    user: 'postgres',
+    password: 'password',
+    host: 'localhost',
+    port: 5432,
+    database: 'template1'
+})
+// connect to template client
+client.connect()
 
-// let model = mongoose.model('navbarItems', Schema)
-
-// module.exports = { model, db };
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-// MONGO DATABASE
-/////////////////////////////////////////////////////////////////////////////////////
-const MongoClient = require('mongodb').MongoClient;
-const fs = require('fs');
-const colors = require('colors');
-
-let db
-
-// Create a new MongoClient
-const client = new MongoClient('mongodb://localhost:27017', { useUnifiedTopology: true })
-// Connect mongo client
-client.connect((err, client) => {
-    if (err) { console.error(err) }
-    db = client.db('BB') // once connected, assign the connection to the global variable 
-});
-
-// query database for a name
-let searchString = async (str) => {
-    ////////////// delete old timing file //////////////
+// define drop database function
+let dropDB = async () => {
     try {
-        fs.unlinkSync('TimingData/searchStringTiming.txt');
+        await client.query(`UPDATE pg_database SET datallowconn = 'false' WHERE datname = 'bb';`)
+        await client.query(`SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'bb';`)
+        await client.query(`DROP DATABASE IF EXISTS bb;`)
     } catch (err) {
         console.log(err)
-    }
-
-    // Use connect method to connect to the Server
-    try {
-        const start = process.hrtime.bigint();
-        let data = await db.collection('navbar').find({ name: { "$regex": '^' + str, "$options": "i" } }).limit(1).toArray()
-        // let anObject = data
-        const end = process.hrtime.bigint();
-        const rawTime = Number((parseInt(end - start) / 6000000).toFixed(2));
-        // console.log(`${rawTime} milliseconds`.cyan);
-
-        // write a timing file to be used for tests
-        try {
-            fs.writeFileSync('TimingData/searchStringTiming.txt', `${rawTime}`);
-        } catch (err) {
-            console.log(err);
-        }
-
-        return data
-
-    } catch (err) {
-        console.log(err)
+    } finally {
+        console.log(' DATABASE: Dropped '.bgWhite.black)
+        client.end()
     }
 }
 
-// query database for an id
-let searchId = async (num) => {
-    ////////////// delete old timing file //////////////
+////////////////////////////////////////////////////////////////////////
+// setup new database and table
+///////////////////////////////////////////////////////////////////////
+
+// define general database client
+const client1 = new Client({
+    user: 'postgres',
+    password: 'password',
+    host: 'localhost',
+    port: 5432,
+    database: ''
+})
+
+// define new bestbuy(bb) database client
+const client2 = new Client({
+    user: 'postgres',
+    password: 'password',
+    host: 'localhost',
+    port: 5432,
+    database: 'bb'
+})
+
+// create database and table function
+let setUpDB = async () => {
+    // create database while connected to general DB
     try {
-        fs.unlinkSync('TimingData/searchIdTiming.txt');
-    } catch (err) {
-        console.log('No Timing Data To Clear')
-    }
-
-    // Use connect method to connect to the Server
-    try {
-        const start = process.hrtime.bigint();
-        let data = await db.collection('navbar').find({ id: num }).limit(1).toArray()
-        // let anObject = data
-        const end = process.hrtime.bigint();
-        const rawTime = Number((parseInt(end - start) / 6000000).toFixed(2));
-        // console.log(`${rawTime} milliseconds`.cyan);
-
-        // write a timing file to be used for tests
-        try {
-            fs.writeFileSync('TimingData/searchIdTiming.txt', `${rawTime}`);
-        } catch (err) {
-            console.log(err);
-        }
-
-        return data
-
+        // connect to general database
+        client1.connect();
+        await client1.query('CREATE DATABASE bb;')
     } catch (err) {
         console.log(err)
+    } finally {
+        console.log('DATABASE: Created!'.green)
+        // close connection to general DB
+        client1.end()
+    }
+
+    // create table in new bestbuy(bb) database
+    try {
+        // connect to new bestbuy(bb) database
+        client2.connect();
+        await client2.query(`CREATE TABLE IF NOT EXISTS navbar(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    image VARCHAR(100),
+    console VARCHAR(20),
+    rating INT        
+);`)
+    } catch (err) {
+        console.log(err)
+    } finally {
+        console.log('TABLE: Created!'.green)
+        // close connection to new bestbuy(bb) database
+        await client2.end()
     }
 }
 
-module.exports = { searchString, searchId };
+// Run the drop database and setupDB functions
+let dropAndBuildDatabase = async () => {
+    await dropDB()
+    await setUpDB()
+}
+
+dropAndBuildDatabase()

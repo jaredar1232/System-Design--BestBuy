@@ -18,7 +18,7 @@ let generator = () => {
     const start = process.hrtime.bigint();
 
     ////////////// build header line //////////////
-    let fields = 'name,image,console,rating,id,\n'
+    let fields = 'id,name,image,console,rating,\n'
 
     ////////////// write header line //////////////
     try {
@@ -44,7 +44,7 @@ let generator = () => {
 
         ////////////// build data object //////////////
         let enter = i < 9999999 ? ',\n' : ''
-        let gamesObj = `${name},https://origin-master.s3-us-west-1.amazonaws.com/game_images/${randomImg}.jpg ,${console},${rating.toFixed(1)},${i + 1}${enter}`
+        let gamesObj = `${i + 1},${name},https://origin-master.s3-us-west-1.amazonaws.com/game_images/${randomImg}.jpg ,${console},${rating.toFixed(1)}${enter}`
 
         ////////////// write data object //////////////
         try {
