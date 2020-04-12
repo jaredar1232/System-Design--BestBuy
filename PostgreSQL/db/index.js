@@ -1,4 +1,4 @@
-const { Pool, Client } = require('pg')
+const { Client } = require('pg')
 const colors = require('colors')
 
 ///////////////////////////////////////////////////////////////////////
@@ -30,7 +30,7 @@ let dropDB = async () => {
     }
 }
 
-////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 // setup new database and table
 ///////////////////////////////////////////////////////////////////////
 
@@ -59,10 +59,10 @@ let setUpDB = async () => {
         // connect to general database
         client1.connect();
         await client1.query('CREATE DATABASE bb;')
+        console.log('DATABASE: Created!'.green)
     } catch (err) {
         console.log(err)
     } finally {
-        console.log('DATABASE: Created!'.green)
         // close connection to general DB
         client1.end()
     }
@@ -78,16 +78,18 @@ let setUpDB = async () => {
     console VARCHAR(20),
     rating INT        
 );`)
+        console.log('TABLE: Created!'.green)
     } catch (err) {
         console.log(err)
     } finally {
-        console.log('TABLE: Created!'.green)
         // close connection to new bestbuy(bb) database
         await client2.end()
     }
 }
 
+///////////////////////////////////////////////////////////////////////
 // Run the drop database and setupDB functions
+///////////////////////////////////////////////////////////////////////
 let dropAndBuildDatabase = async () => {
     await dropDB()
     await setUpDB()

@@ -64,11 +64,10 @@ client.connect(function (err) {
                 // close connection and console long data
                 console.log('COLLECTION: Indexing Complete'.green)
                 client.close();
-                console.log('\nCONNECTION: Closed'.white)
+                console.log('\nCONNECTION: Closing. (please wait 30 seconds)'.white)
             } catch (err) {
                 console.log(err)
             }
-
         });
     });
 });
