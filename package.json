@@ -10,7 +10,9 @@
     "testM": "jest --detectOpenHandles",
     "generate": "node GenerateData.js",
     "seedM": "run-s generate importM",
-    "configP": "node PostgreSQL/db/index"
+    "configP": "node PostgreSQL/db/index",
+    "importP": "node PostgreSQL/db/seed.js",
+    "seedP": "run-s configP importP"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +36,7 @@
     "mongoose": "^5.9.5",
     "nodemon": "^2.0.2",
     "pg": "^8.0.2",
+    "pg-copy-streams": "^2.2.2",
     "pgtools": "^0.3.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
