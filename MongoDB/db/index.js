@@ -85,7 +85,7 @@ let searchId = async (num) => {
         // let anObject = data
         const end = process.hrtime.bigint();
         const rawTime = Number((parseInt(end - start) / 6000000).toFixed(2));
-        // console.log(`${rawTime} milliseconds`.cyan);
+        console.log(`${rawTime} milliseconds`.cyan);
 
         // write a timing file to be used for tests
         try {

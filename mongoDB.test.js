@@ -98,7 +98,7 @@ describe('MongoDB Query Performance', () => {
             }))
         }
         const data = await readTimeData();
-        expect(Number(data)).toBeLessThan(1);
+        expect(Number(data)).toBeLessThan(2);
     })
 })
 
