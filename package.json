@@ -6,14 +6,12 @@
   "scripts": {
     "build": "webpack -wd",
     "start": "nodemon server/index.js",
-    "importM": "node MongoDB/db/seed.js",
-    "testM": "jest --runInBand --detectOpenHandles",
+    "test": "jest --runInBand",
     "generate": "node GenerateData.js",
+    "importM": "node MongoDB/db/seed.js",
     "seedM": "run-s generate importM",
-    "configP": "node PostgreSQL/db/index",
     "importP": "node PostgreSQL/db/seed.js",
-    "indexP": "node PostgreSQL/db/dbIndex.js",
-    "seedP": "run-s configP importP"
+    "seedP": "run-s generate importP"
   },
   "keywords": [],
   "author": "",

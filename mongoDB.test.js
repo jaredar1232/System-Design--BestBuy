@@ -1,7 +1,7 @@
 const fs = require('fs');
 const db = require('./MongoDB/db/index.js');
 
-describe('Generator and Seed Performance', () => {
+xdescribe('Generator and Seed Performance', () => {
     test('generator timing has been recorded', async () => {
         const readTimeData = () => {
             return new Promise((resolve, reject) => fs.readFile('TimingData/generateTiming.txt', (err, data) => {
@@ -31,7 +31,7 @@ describe('Generator and Seed Performance', () => {
     })
 })
 
-describe('MongoDB Query Performance', () => {
+xdescribe('MongoDB Query Performance', () => {
 
     test('query returns a value', async () => {
         const data = await db.searchString('Vada')

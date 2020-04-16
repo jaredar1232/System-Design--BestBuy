@@ -6,6 +6,7 @@ const AWS = require('aws-sdk');
 //const keys = require('../keys.js');
 var cors = require('cors')
 
+// pick a DB (also need to change paths down below!)
 // const db = require('../MongoDB/db/index.js')
 const db = require('./../PostgreSQL/db/models.js')
 
@@ -24,8 +25,8 @@ app.use(cors());
 ////////////////////////////////////////////////////////
 
 app.post('/search', (req, res) => {
-  const name = req.body.name;
-  console.log(name)
+  const name = req.body.text;
+  // console.log('should log what i typed', name)
   db.searchString(name)
     .then(data => {
       res.status(200).send(data.rows);
@@ -35,17 +36,17 @@ app.post('/search', (req, res) => {
 
 app.post('/id', (req, res) => {
   const id = req.body.id;
-  console.log(id)
+  // console.log(id)
   db.searchId(id)
     .then(data => {
-      res.status(200).send(data);
+      res.status(200).send(data.rows);
     })
     .catch(err => res.status(400).send(err));
 });
 
 app.post('/search_related', (req, res) => {
-  const name = req.body.name;
-  console.log(name)
+  const name = req.body.text;
+  // console.log('should log what is typed', name)
   db.searchRelated(name)
     .then(data => {
       res.status(200).send(data.rows);
