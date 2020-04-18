@@ -6,7 +6,7 @@ colors = require('colors')
 var db = new Pool({
     user: 'postgres',
     password: 'postgres',
-    host: 'localhost',
+    host: '13.57.29.156',
     port: 5432,
     database: 'postgres'
 });
