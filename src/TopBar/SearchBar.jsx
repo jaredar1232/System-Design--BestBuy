@@ -30,7 +30,7 @@ class SearchBar extends React.Component {
 
     searchText = (text) => {
         if (text.trim()) {
-            axios.post("http://127.0.0.1:3001/search", { text: this.state.text })
+            axios.post("/search", { text: this.state.text })
                 .then(result => {
                     this.setState({
                         items: result.data
@@ -44,7 +44,7 @@ class SearchBar extends React.Component {
 
     searchRelatedProducts = text => {
         if (text.trim()) {
-            axios.post("http://127.0.0.1:3001/search_related", { text: this.state.text })
+            axios.post("/search_related", { text: this.state.text })
                 .then(result => {
                     this.setState({
                         relatedItems: result.data
