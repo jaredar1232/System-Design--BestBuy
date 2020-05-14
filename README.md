@@ -37,6 +37,8 @@ From within the root directory:
 
 TESTING
 After doing the install and running the seeding script:
+
 run "npm test" to test the data seeding and speed of the postgres database
--to test for mongoDB, remove the "x"'s on the describe blocks in mongoDB.test.js
+
+- to test for mongoDB, remove the "x"'s on the describe blocks in mongoDB.test.js
 
