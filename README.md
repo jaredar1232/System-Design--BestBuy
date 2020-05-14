@@ -8,7 +8,7 @@
 
 1. [Usage](#Usage)
 1. [Requirements](#requirements)
-1. [Installing Dependencies](#Installing)
+1. [Installing Dependencies](#InstallingDependencies)
 
 ## Usage
 
@@ -26,11 +26,12 @@ From within the root directory:
 
 1. run "npm install"
 
-2a. run "npm seedP" to generate 10mil data points, seed the postgres database, and index the database
-2b. run "npm seedM" to generate 10mil data points, seed the mongo database, and index the database
+2. A.. run "npm seedP" to generate 10mil data points, seed the postgres database, and index the database
+
+2. B.. run "npm seedM" to generate 10mil data points, seed the mongo database, and index the database
 - to use the mongoDB routes, Lines 10 & Lines 70-78 must be uncommented in the server/index.js file
 - also, comment out Line 11 & Lines 27-63
-- I suggest just using postgreSQL as it was the most optimized database.
+- I suggest just using postgreSQL as it was the most optimized database
 
 3. run "npm start"
 
