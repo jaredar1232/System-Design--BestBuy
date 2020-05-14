@@ -8,7 +8,7 @@
 
 1. [Usage](#Usage)
 1. [Requirements](#requirements)
-1. [Installing Dependencies](#Installing Dependencies)
+1. [Installing Dependencies](#Installing)
 
 ## Usage
 
