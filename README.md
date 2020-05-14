@@ -26,9 +26,10 @@ From within the root directory:
 
 1. run "npm install"
 
-2A. run "npm seedP" to generate 10mil data points, seed the postgres database, and index the database
+2. run "npm seedP" to generate 10mil data points, seed the postgres database, and index the database
 
-2B. run "npm seedM" to generate 10mil data points, seed the mongo database, and index the database
+ALTERNATE DATABASE:
+run "npm seedM" to generate 10mil data points, seed the mongo database, and index the database
 - to use the mongoDB routes, Lines 10 & Lines 70-78 must be uncommented in the server/index.js file
 - also, comment out Line 11 & Lines 27-63
 - I suggest just using postgreSQL as it was the most optimized database
